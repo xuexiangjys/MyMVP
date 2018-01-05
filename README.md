@@ -4,9 +4,11 @@ Dragger2 + MVP 的使用演示
 ## 如何使用Dragger2
 1.增加Dragger2依赖包
 ```
-    implementation 'com.google.dagger:dagger:2.13'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
-    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+    dependencies {
+        implementation 'com.google.dagger:dagger:2.13'
+        annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+        compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+    }
 ```
 
 2.编写Module
@@ -31,12 +33,12 @@ Dragger2 + MVP 的使用演示
     }
 ```
 
-4.编译一下
+4.编译工程
 ```
   AndroidStudio -> Build -> Make Project
 ```
 
-5.依赖注入
+5.进行依赖注入
 ```
     @Override
     protected void onResume() {
