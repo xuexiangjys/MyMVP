@@ -1,26 +1,36 @@
 package com.xuexiang.mymvp.di.component;
 
-import android.content.Context;
+import android.app.Application;
 
-import com.xuexiang.mymvp.LoginActivity;
 import com.xuexiang.mymvp.MyApplication;
-import com.xuexiang.mymvp.di.module.AppModule;
-import com.xuexiang.mymvp.util.ToastUtil;
+import com.xuexiang.mymvp.di.AllActivitysModule;
 
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
  * @author xuexiang
  * @date 2018/1/5 上午10:27
  */
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {
+        AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
+        AllActivitysModule.class})
 public interface AppComponent {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
 
-    Context getContext();
+        AppComponent build();
+    }
 
-    ToastUtil getToastUtil();
+    void inject(MyApplication myApplication);
+
 
 }

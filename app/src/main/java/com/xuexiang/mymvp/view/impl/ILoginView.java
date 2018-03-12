@@ -1,4 +1,4 @@
-package com.xuexiang.mymvp.view;
+package com.xuexiang.mymvp.view.impl;
 
 import android.content.Context;
 
@@ -10,7 +10,7 @@ public interface ILoginView {
 
     Context getContext();
 
-    void login(String name, String password);
+    boolean login(String name, String password);
 
     void register();
 

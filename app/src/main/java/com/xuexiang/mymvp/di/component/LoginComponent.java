@@ -1,6 +1,6 @@
 package com.xuexiang.mymvp.di.component;
 
-import com.xuexiang.mymvp.LoginActivity;
+import com.xuexiang.mymvp.view.ui.LoginActivity;
 import com.xuexiang.mymvp.di.module.LoginModule;
 import com.xuexiang.mymvp.di.scope.ActivityScope;
 

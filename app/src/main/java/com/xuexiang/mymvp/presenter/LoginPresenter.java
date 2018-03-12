@@ -1,12 +1,8 @@
 package com.xuexiang.mymvp.presenter;
 
-import android.app.Application;
-import android.content.Context;
-
-import com.xuexiang.mymvp.MyApplication;
 import com.xuexiang.mymvp.model.ILoginModel;
 import com.xuexiang.mymvp.util.ToastUtil;
-import com.xuexiang.mymvp.view.ILoginView;
+import com.xuexiang.mymvp.view.impl.ILoginView;
 
 /**
  * @author xuexiang
@@ -23,13 +19,13 @@ public class LoginPresenter implements IPresent<ILoginView>, ILoginModel{
 
     @Override
     public void detachV() {
-
+        mLoginView = null;
     }
 
     @Override
     public boolean login(String name, String password) {
-        ToastUtil.getInstance(mLoginView.getContext()).showToast("正在进行登陆，用户名：" + name + "，密码：" + password);
-        return false;
+//        ToastUtil.getInstance(mLoginView.getContext()).showToast("正在进行登陆，用户名：" + name + "，密码：" + password);
+        return name.equals("xuexiang") && password.equals("123456");
     }
 
     @Override
