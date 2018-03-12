@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.xuexiang.mymvp.R;
 import com.xuexiang.mymvp.presenter.LoginPresenter;
 import com.xuexiang.mymvp.util.ToastUtil;
@@ -15,6 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+@Route(path = "/ui/login")
 public class LoginActivity extends BaseActivity implements ILoginView {
 
     @BindView(R.id.loginname)
@@ -68,7 +71,9 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         switch (v.getId()) {
             case R.id.btn_login:
                 if (login(mEdtLoginName.getEditableText().toString(), mEdtPassword.getEditableText().toString())) {
-                    startActivity(new Intent(this, MainActivity.class));
+//                    startActivity(new Intent(this, MainActivity.class));
+                    ARouter.getInstance().build("/ui/main").withString("user_name", mEdtLoginName.getEditableText().toString()).navigation();
+                    finish();
                 } else {
                     ToastUtil.getInstance(this).showToast("用户名或密码错误！");
                 }

@@ -1,5 +1,5 @@
 # MyMVP
-Dragger2 + MVP 的使用演示
+Dragger2 + Dragger2-android + ARouter + MVP 的使用演示
 
 ## 如何使用Dragger2
 1.增加Dragger2依赖包
@@ -7,6 +7,11 @@ Dragger2 + MVP 的使用演示
     dependencies {
         implementation 'com.google.dagger:dagger:2.13'
         annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+
+        implementation 'com.google.dagger:dagger-android:2.13'
+        implementation 'com.google.dagger:dagger-android-support:2.13'
+        annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
+
         compileOnly 'org.glassfish:javax.annotation:10.0-b28'
     }
 ```
