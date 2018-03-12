@@ -1,5 +1,5 @@
 # MyMVP
-Dragger2 + Dragger2-android + ARouter + MVP 的使用演示
+Dragger2 + Dragger2-android + ARouter + ButterKnife + MVP 的使用演示
 
 ## 如何使用Dragger2
 1.增加Dragger2依赖包
