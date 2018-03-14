@@ -2,8 +2,6 @@ package com.xuexiang.mymvp.di.module;
 
 import android.content.Context;
 
-import com.xuexiang.mymvp.util.ToastUtil;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -25,12 +23,6 @@ public class AppModule {
     @Singleton
     public Context provideContext(){
         return mContext;
-    }
-
-    @Provides
-    @Singleton
-    public ToastUtil provideToastUtil(){
-        return ToastUtil.getInstance(mContext);
     }
 
 }

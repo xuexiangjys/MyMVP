@@ -3,7 +3,7 @@ package com.xuexiang.mymvp.di.component;
 import android.app.Application;
 
 import com.xuexiang.mymvp.MyApplication;
-import com.xuexiang.mymvp.di.AllActivitysModule;
+import com.xuexiang.mymvp.di.ActivitysModule;
 
 import javax.inject.Singleton;
 
@@ -20,7 +20,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
-        AllActivitysModule.class})
+        ActivitysModule.class})
 public interface AppComponent {
     @Component.Builder
     interface Builder {

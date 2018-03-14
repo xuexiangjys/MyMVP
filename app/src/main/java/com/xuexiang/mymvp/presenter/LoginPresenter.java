@@ -30,6 +30,6 @@ public class LoginPresenter implements IPresent<ILoginView>, ILoginModel{
 
     @Override
     public void register() {
-        ToastUtil.getInstance(mLoginView.getContext()).showToast("点击了注册按钮");
+        ToastUtil.showToast("点击了注册按钮");
     }
 }

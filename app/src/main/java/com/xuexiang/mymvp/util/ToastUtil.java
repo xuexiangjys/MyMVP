@@ -1,27 +1,23 @@
 package com.xuexiang.mymvp.util;
 
 import android.content.Context;
-import android.widget.TextView;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 /**
  * 管理toast的类，整个app用该类来显示toast
  */
-public class ToastUtil {
+public final class ToastUtil {
 
-    private Toast mToast = null;
-    private Context mContext;
-    private static ToastUtil mInstance = null;
+    private static Toast sToast = null;
+    private static Context sContext;
 
-    public ToastUtil(Context context) {
-        mContext = context;
-    }
+    private static Handler sMainThreadHandler;
 
-    public synchronized static ToastUtil getInstance(Context ctx) {
-        if (mInstance == null) {
-            mInstance = new ToastUtil(ctx.getApplicationContext());
-        }
-        return mInstance;
+    public static void init(Context context) {
+        sContext = context.getApplicationContext();
+        sMainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
     /**
@@ -29,26 +25,36 @@ public class ToastUtil {
      * @param text 提示信息
      * @param duration 提示长度
      */
-    public void showToast(String text, int duration) {
-        if (mToast == null) {
-            mToast = Toast.makeText(mContext, text, duration);
+    public static void showToast(String text, int duration) {
+        if (sToast == null) {
+            sToast = Toast.makeText(sContext, text, duration);
         } else {
-            mToast.setText(text);
+            sToast.setText(text);
         }
-        mToast.show();
+        sToast.show();
     }
 
-    public void showToast(String text) {
-        showToast(text, Toast.LENGTH_SHORT);
+    public static void showToast(final String text) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            showToast(text, Toast.LENGTH_SHORT);
+        } else {
+            sMainThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(text, Toast.LENGTH_SHORT);
+                }
+            });
+        }
+
     }
 
-    public void showToast(int resId) {
-        showToast(mContext.getResources().getString(resId), Toast.LENGTH_SHORT);
+    public static void showToast(int resId) {
+        showToast(sContext.getResources().getString(resId));
     }
 
     public void cancelToast() {
-        if (mToast != null) {
-            mToast.cancel();
+        if (sToast != null) {
+            sToast.cancel();
         }
     }
 

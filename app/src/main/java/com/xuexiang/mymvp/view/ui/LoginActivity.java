@@ -1,7 +1,6 @@
 package com.xuexiang.mymvp.view.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -75,7 +74,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                     ARouter.getInstance().build("/ui/main").withString("user_name", mEdtLoginName.getEditableText().toString()).navigation();
                     finish();
                 } else {
-                    ToastUtil.getInstance(this).showToast("用户名或密码错误！");
+                    ToastUtil.showToast("用户名或密码错误！");
                 }
                 break;
             case R.id.btn_register:

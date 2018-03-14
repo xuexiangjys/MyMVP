@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xuexiang.mymvp.di.AppInjector;
+import com.xuexiang.mymvp.util.ToastUtil;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,7 @@ public class MyApplication extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
 
+        ToastUtil.init(this);
         AppInjector.init(this);
 
         if (isDebug()) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
