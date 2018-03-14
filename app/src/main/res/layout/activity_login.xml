@@ -13,8 +13,11 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
+            android:gravity="right"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="18sp"
             android:text="登录名：" />
 
         <EditText
@@ -23,7 +26,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Name" />
+            android:hint="请输入用户名" />
 
     </LinearLayout>
 
@@ -36,8 +39,11 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
+            android:gravity="right"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="18sp"
             android:text="密码：" />
 
         <EditText
@@ -46,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="请输入密码"
             android:inputType="textPassword" />
 
     </LinearLayout>

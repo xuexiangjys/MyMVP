@@ -1,9 +1,11 @@
 # MyMVP
 Dragger2 + Dragger2-android + ARouter + ButterKnife + MVP 的使用演示
 
-## 演示效果
-![](https://github.com/xuexiangjys/MyMVP/blob/master/img/dragger2.gif)
+## 关于我
+[![github](https://img.shields.io/badge/GitHub-xuexiangjys-blue.svg)](https://github.com/xuexiangjys)   [![csdn](https://img.shields.io/badge/CSDN-xuexiangjys-green.svg)](http://blog.csdn.net/xuexiangjys)
 
+## 演示效果（请star支持）
+![](https://github.com/xuexiangjys/MyMVP/blob/master/img/dragger2.gif)
 
 ## 如何使用Dragger2
 1.增加Dragger2依赖包
