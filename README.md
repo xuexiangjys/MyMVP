@@ -46,7 +46,7 @@ public class LoginModule {
 
 3.编写Component装载module
 
-（1）使用Dragger2单独编写Component装载module
+（1）使用Dagger2单独编写Component装载module
 
 ```
 @ActivityScope
