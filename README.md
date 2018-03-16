@@ -1,17 +1,17 @@
 # MyMVP
-Dragger2 + Dragger2-android + ARouter + ButterKnife + MVP 的使用演示
+Dagger2 + Dagger2-android + ARouter + ButterKnife + MVP 的使用演示
 
 ## 关于我
 [![github](https://img.shields.io/badge/GitHub-xuexiangjys-blue.svg)](https://github.com/xuexiangjys)   [![csdn](https://img.shields.io/badge/CSDN-xuexiangjys-green.svg)](http://blog.csdn.net/xuexiangjys)
 
 ## 演示效果（请star支持）
-![](https://github.com/xuexiangjys/MyMVP/blob/master/img/dragger2.gif)
+![](https://github.com/xuexiangjys/MyMVP/blob/master/img/dagger2.gif)
 
-## 如何使用Dragger2
-1.增加Dragger2依赖包
+## 如何使用Dagger2
+1.增加Dagger2依赖包
 ```
 dependencies {
-    //Dragger2
+    //Dagger2
     implementation 'com.google.dagger:dagger:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
 
@@ -56,7 +56,7 @@ public interface LoginComponent {
 }
 ```
 
-（2）使用Dragger-Android 统一生成装载module
+（2）使用Dagger-Android 统一生成装载module
 ```
 @ActivityScope
 @ContributesAndroidInjector(modules = LoginModule.class)
@@ -70,7 +70,7 @@ abstract LoginActivity contributeSecondActivityInjector();
 
 5.进行依赖注入
 
-(1)使用Dragger2,通过Component取出module注入依赖
+(1)使用Dagger2,通过Component取出module注入依赖
 ```
 @Override
 protected void onResume() {
@@ -79,7 +79,7 @@ protected void onResume() {
    mPresenter.attachV(this);
 }
 ```
-(2)使用Dragger-Android在BaseActivity中统一AndroidInjection统一取出module注入依赖
+(2)使用Dagger-Android在BaseActivity中统一AndroidInjection统一取出module注入依赖
 ```
 @Override
 protected void onCreate(@Nullable Bundle savedInstanceState) {
