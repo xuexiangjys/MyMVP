@@ -180,6 +180,7 @@ public interface AppComponent {
 
 在实际使用Dagger2过程中，我们不可能书写过多的Component，那样可读性和可维护性都会大大降低，@Subcomponent主要解决的是就是Component复用的问题。
 Subcomponent就好比将多个统一(类似)的依赖注入Component接口打包到一个Module(暂记为AllModule)中，而这些Subcomponent又可以放入多个Module。
+
 这样在外层我们只需要定义一个全局的父Component，而在这个父Component中，我们放入了装载了多个Subcomponent的AllModule。这样如果我们需要新添加依赖的话，只需要在AllModule中进行Module注册即可，无需添加新的Component，而且也方便管理。
 
 ```
