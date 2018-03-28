@@ -40,7 +40,7 @@ MVP设计模式中，M层提供数据，V层做界面展示，而P层则成为M�
 
 - 2.使用@Component的modules属性修饰存放Module容器的仓库Component，并同时定义依赖注入的接口方法inject，参数为依赖注入的对象。
 
-- 3.执行编译，使用自动生成的[”Dagger” + Component名]类调用之前定义的依赖注入接口方法，再在注入对象上添加@Inject进行注入关联。
+- 3.执行编译，使用自动生成的[”Dagger” + Component名]类先装载Module，再用之前定义的依赖注入接口方法，最后在注入对象上添加@Inject进行注入关联。
 
 ## 如何使用Dagger2
 1.增加Dagger2依赖包
