@@ -30,7 +30,7 @@ MVP设计模式中，M层提供数据，V层做界面展示，而P层则成为M�
 
 - 注解@Inject:从容器中取出这个对象的动作。
 
-- 注解@Qualifier：用来给Inject和Provides贴上关联标签。如果一个对象可以由多个容器提供，这时候就需要用Qualifier进行标签关联。
+- 注解@Qualifier：用来给@Inject和@Provides贴上关联标签(进行注解)。如果一个对象可以由一个或多个容器的@Provides修饰提供，这时候就需要用Qualifier进行标签关联。 [还不清楚的可点击了解.](https://www.jianshu.com/p/e521bd239cd9)
 
 - 注解@Scope：从容器取出对象的有效期，即生命周期。
 
@@ -46,8 +46,110 @@ MVP设计模式中，M层提供数据，V层做界面展示，而P层则成为M�
 
 1.看过上面介绍后，可能有人会疑问：一个Component难道只能存储一个依赖注入对象的所有module？那岂不是我需要创建很多的Component实现接口，而且还有很多重复的劳动，多了也同样不好管理。能不能使用一个Component，对多个依赖注入对象进行Module的存储呢？
 
+2.在Android中，我们需要进行依赖注入的对象大多数是Activity、Fragment、Service、BroadcastReceiver等，如果像上面那样使用Dagger进行依赖注入的话，就需要为每个Activity、Fragment等创建Component和Module，并在生命周期中写上一长串依赖注入的实现，这样会显得非常麻烦，那么能否有一种方式，能够将他们的所有依赖注入信息统一注册在一个全局Component(AppComponent)中,并在每次Activity、Fragment等创建的时候自动进行依赖注入，这样就完全实现了依赖注入的可配置，每个类都无需关注依赖注入如何实现。
+
+那么如何解决以上问题呢？Google为此不懈努力，开发出了Dagger2-android库。
 
 ## 何为Dagger2-android
+
+Dagger2-Android是Google基于Dagger2开发的应用于Android开发的扩展库。通过它，我们能够通过简单的配置，无需书写过多的Component就可以轻松地实现Android的依赖注入。可以说是Android实现依赖注入的一大法宝。
+
+## 如何使用Dagger2-android进行全局依赖配置
+
+### 1.我们先声明我们的Application类，并实现HasActivityInjector接口，然后添加到manifest清单文件中：
+
+```
+public class MyApplication extends Application implements HasActivityInjector {
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        
+        AppInjector.init(this); //全局依赖注入
+
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
+    }
+}
+
+```
+
+### 2.定义全局依赖仓库AppComponent，添加依赖注入的Module。
+
+```
+@Singleton
+@Component(modules = {
+        AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
+        ActivitysModule.class
+})
+public interface AppComponent {
+    void inject(MyApplication myApplication);
+}
+```
+
+### 3.定义基础Activity的Subcomponent--ActivitySubComponent，统一Activity的依赖注入接口：
+
+在实际使用Dagger2过程中，我们不可能书写过多的Component，那样可读性和可维护性都会大大降低，@Subcomponent主要解决的是就是Component复用的问题。
+Subcomponent就好比将多个统一(类似)的依赖注入Component接口打包到一个Module(暂记为AllModule)中，而这些Subcomponent又可以放入多个Module。
+这样在外层我们只需要定义一个全局的父Component，而在这个父Component中，我们放入了装载了多个Subcomponent的AllModule。这样如果我们需要新添加依赖的话，只需要在AllModule中进行Module注册即可，无需添加新的Component，而且也方便管理。
+
+```
+@Subcomponent(modules = {
+        AndroidInjectionModule.class,
+})
+public interface ActivitySubComponent extends AndroidInjector<BaseActivity> {
+
+    @Subcomponent.Builder
+    abstract class Builder extends AndroidInjector.Builder<BaseActivity> {  //构建规则
+    
+    }
+
+}
+```
+
+### 4.定义存放多个ActivitySubComponent的Module--ActivitysModule:
+
+```
+@Module(subcomponents = {
+        ActivitySubComponent.class
+})
+public abstract class ActivitysModule {
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = LoginModule.class)
+    abstract LoginActivity contributeLoginActivityInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = MainModule.class)
+    abstract MainActivity contributeMainActivitytInjector();
+
+}
+
+```
+
+### 5.在全局依赖仓库AppComponent中装入ActivitysModule，并进行全局依赖注入：
+
+使用Application注册Activity生命周期回调，在Activity创建的时候自动进行依赖注入。
+
+```
+DaggerAppComponent.builder().build().inject(myApplication);
+        myApplication
+                .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                    @Override
+                    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                        AndroidInjection.inject(activity);   //动态自动进行依赖注入
+                    }
+                 ···省略其他Callbacks
+                 
+                });
+```
+
 
 
 ## 如何使用Dagger2
