@@ -234,6 +234,9 @@ DaggerAppComponent.builder().build().inject(myApplication);
                 });
 ```
 
+需要了解更多有关Dagger2和MVP内容的，[请点击查看](https://github.com/googlesamples/android-architecture)
+
+
 ## 更多框架演示
 
 - [MVP](https://github.com/xuexiangjys/MyMVP)
