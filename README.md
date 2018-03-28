@@ -93,4 +93,4 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
 
 - [MVP](https://github.com/xuexiangjys/MyMVP)
 - [MVVM](https://github.com/xuexiangjys/MyMVVM)
-- [Googel Architecture Components](https://github.com/xuexiangjys/GoogleComponentsDemo)
+- [Google Architecture Components](https://github.com/xuexiangjys/GoogleComponentsDemo)
