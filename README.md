@@ -42,6 +42,89 @@ MVP设计模式中，M层提供数据，V层做界面展示，而P层则成为M�
 
 - 3.执行编译，使用自动生成的[”Dagger” + Component名]类先装载Module，再用之前定义的依赖注入接口方法，最后在注入对象上添加@Inject进行注入关联。
 
+
+## 如何使用Dagger2
+1.增加Dagger2依赖包
+```
+dependencies {
+    //Dagger2
+    implementation 'com.google.dagger:dagger:2.13'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+
+    implementation 'com.google.dagger:dagger-android:2.13'
+    implementation 'com.google.dagger:dagger-android-support:2.13'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
+
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+
+    //ARouter
+    compile 'com.alibaba:arouter-api:1.3.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+
+    //butterknife的sdk
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+}
+```
+
+2.编写Module
+```
+@Module
+public class LoginModule {
+    @ActivityScope
+    @Provides
+    LoginPresenter getPresenter() {
+        return new LoginPresenter();
+    }
+
+}
+```
+
+3.编写Component装载module
+
+（1）使用Dagger2单独编写Component装载module
+
+```
+@ActivityScope
+@Component(modules = {LoginModule.class})
+public interface LoginComponent {
+    void inject(LoginActivity activity);
+}
+```
+
+（2）使用Dagger-Android 统一生成装载module
+```
+@ActivityScope
+@ContributesAndroidInjector(modules = LoginModule.class)
+abstract LoginActivity contributeSecondActivityInjector();
+```
+
+4.编译工程
+```
+  AndroidStudio -> Build -> Make Project
+```
+
+5.进行依赖注入
+
+(1)使用Dagger2,通过Component取出module注入依赖
+```
+@Override
+protected void onResume() {
+   super.onResume();
+   DaggerLoginComponent.builder().loginModule(new LoginModule()).build().inject(this);
+   mPresenter.attachV(this);
+}
+```
+(2)使用Dagger-Android在BaseActivity中统一AndroidInjection统一取出module注入依赖
+```
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    AndroidInjection.inject(this);  //统一注入
+    super.onCreate(savedInstanceState);
+    setContentView(getLayoutId());
+}
+```
+
 ## Dagger2使用中存在的问题
 
 1.看过上面介绍后，可能有人会疑问：一个Component难道只能存储一个依赖注入对象的所有module？那岂不是我需要创建很多的Component实现接口，而且还有很多重复的劳动，多了也同样不好管理。能不能使用一个Component，对多个依赖注入对象进行Module的存储呢？
@@ -148,90 +231,6 @@ DaggerAppComponent.builder().build().inject(myApplication);
                  ···省略其他Callbacks
                  
                 });
-```
-
-
-
-## 如何使用Dagger2
-1.增加Dagger2依赖包
-```
-dependencies {
-    //Dagger2
-    implementation 'com.google.dagger:dagger:2.13'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
-
-    implementation 'com.google.dagger:dagger-android:2.13'
-    implementation 'com.google.dagger:dagger-android-support:2.13'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
-
-    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
-
-    //ARouter
-    compile 'com.alibaba:arouter-api:1.3.1'
-    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
-
-    //butterknife的sdk
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-}
-```
-
-2.编写Module
-```
-@Module
-public class LoginModule {
-    @ActivityScope
-    @Provides
-    LoginPresenter getPresenter() {
-        return new LoginPresenter();
-    }
-
-}
-```
-
-3.编写Component装载module
-
-（1）使用Dagger2单独编写Component装载module
-
-```
-@ActivityScope
-@Component(modules = {LoginModule.class})
-public interface LoginComponent {
-    void inject(LoginActivity activity);
-}
-```
-
-（2）使用Dagger-Android 统一生成装载module
-```
-@ActivityScope
-@ContributesAndroidInjector(modules = LoginModule.class)
-abstract LoginActivity contributeSecondActivityInjector();
-```
-
-4.编译工程
-```
-  AndroidStudio -> Build -> Make Project
-```
-
-5.进行依赖注入
-
-(1)使用Dagger2,通过Component取出module注入依赖
-```
-@Override
-protected void onResume() {
-   super.onResume();
-   DaggerLoginComponent.builder().loginModule(new LoginModule()).build().inject(this);
-   mPresenter.attachV(this);
-}
-```
-(2)使用Dagger-Android在BaseActivity中统一AndroidInjection统一取出module注入依赖
-```
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    AndroidInjection.inject(this);  //统一注入
-    super.onCreate(savedInstanceState);
-    setContentView(getLayoutId());
-}
 ```
 
 ## 更多框架演示
