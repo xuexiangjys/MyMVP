@@ -7,6 +7,8 @@ import android.widget.EditText;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xuexiang.mymvp.R;
+import com.xuexiang.mymvp.di.component.DaggerLoginComponent;
+import com.xuexiang.mymvp.di.module.LoginModule;
 import com.xuexiang.mymvp.presenter.LoginPresenter;
 import com.xuexiang.mymvp.util.ToastUtil;
 import com.xuexiang.mymvp.view.impl.ILoginView;
@@ -30,7 +32,10 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 //    @Override
 //    protected void onResume() {
 //        super.onResume();
-//        DaggerLoginComponent.builder().loginModule(new LoginModule()).build().inject(this);
+//        DaggerLoginComponent.builder()
+////                .loginModule(new LoginModule())
+//                .build()
+//                .inject(this);
 //        mPresenter.attachV(this);
 //    }
 
