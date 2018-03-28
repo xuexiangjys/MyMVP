@@ -38,12 +38,13 @@ public class AppInjector {
     }
 
     public static void init(MyApplication myApplication) {
-        DaggerAppComponent.builder().application(myApplication).build().inject(myApplication);
+        DaggerAppComponent.builder().build().inject(myApplication);
         myApplication
                 .registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                     @Override
                     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                        handleActivity(activity);
+//                        handleSupportFragmentActivity(activity);
+                        AndroidInjection.inject(activity);
                     }
 
                     @Override
@@ -78,7 +79,7 @@ public class AppInjector {
                 });
     }
 
-    private static void handleActivity(Activity activity) {
+    private static void handleSupportFragmentActivity(Activity activity) {
         if (activity instanceof HasSupportFragmentInjector) {
             AndroidInjection.inject(activity);
         }
