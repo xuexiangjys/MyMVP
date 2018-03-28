@@ -139,7 +139,7 @@ Dagger2-Android是Google基于Dagger2开发的应用于Android开发的扩展库
 
 ## 如何使用Dagger2-android进行全局依赖配置
 
-### 1.我们先声明我们的Application类，并实现HasActivityInjector接口，然后添加到manifest清单文件中：
+1.我们先声明我们的Application类，并实现HasActivityInjector接口，然后添加到manifest清单文件中：
 
 ```
 public class MyApplication extends Application implements HasActivityInjector {
@@ -162,7 +162,7 @@ public class MyApplication extends Application implements HasActivityInjector {
 
 ```
 
-### 2.定义全局依赖仓库AppComponent，添加依赖注入的Module。
+2.定义全局依赖仓库AppComponent，添加依赖注入的Module。
 
 ```
 @Singleton
@@ -176,7 +176,7 @@ public interface AppComponent {
 }
 ```
 
-### 3.定义基础Activity的Subcomponent--ActivitySubComponent，统一Activity的依赖注入接口：
+3.定义基础Activity的Subcomponent--ActivitySubComponent，统一Activity的依赖注入接口：
 
 在实际使用Dagger2过程中，我们不可能书写过多的Component，那样可读性和可维护性都会大大降低，@Subcomponent主要解决的是就是Component复用的问题。
 Subcomponent就好比将多个统一(类似)的依赖注入Component接口打包到一个Module(暂记为AllModule)中，而这些Subcomponent又可以放入多个Module。
@@ -197,7 +197,7 @@ public interface ActivitySubComponent extends AndroidInjector<BaseActivity> {
 }
 ```
 
-### 4.定义存放多个ActivitySubComponent的Module--ActivitysModule:
+4.定义存放多个ActivitySubComponent的Module--ActivitysModule:
 
 ```
 @Module(subcomponents = {
@@ -217,7 +217,7 @@ public abstract class ActivitysModule {
 
 ```
 
-### 5.在全局依赖仓库AppComponent中装入ActivitysModule，并进行全局依赖注入：
+5.在全局依赖仓库AppComponent中装入ActivitysModule，并进行全局依赖注入：
 
 使用Application注册Activity生命周期回调，在Activity创建的时候自动进行依赖注入。
 
